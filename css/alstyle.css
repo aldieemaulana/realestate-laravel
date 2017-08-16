@@ -9,11 +9,11 @@
 }
 
 .wrap.akad {
-    background: #66BB6A;
+    background: #FFD54F;
 }
 
 .wrap.isi {
-    background: #FFD54F;
+    background: #66BB6A;
 }
 
 .wrap h5 {
@@ -39,13 +39,13 @@ label.kosong {
 }
 
 label.isi {
-    background: #FFD54F;
+    background: #66BB6A;
     padding: 2px 5px;
     font-size: 12px;
 }
 
 label.akad {
-    background: #66BB6A;
+    background: #FFD54F;
     padding: 2px 5px;
     font-size: 12px;
 }

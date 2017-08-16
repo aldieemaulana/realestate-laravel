@@ -41,6 +41,8 @@ class LoginController extends Controller
 
         if(Role::whereId(Session::get('role'))->value('name') == "manager"){
             return 'manager/dashboard';
+        }else if(Role::whereId(Session::get('role'))->value('name') == "supervisor"){
+            return 'supervisor/dashboard';
         }else{
             return 'logout';
         }

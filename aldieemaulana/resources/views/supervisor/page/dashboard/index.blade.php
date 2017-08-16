@@ -1,4 +1,4 @@
-@extends('home.layouts.frame')
+@extends('supervisor.layouts.frame')
 @section('title', 'Dashboard @ruma')
 @section('description')
 
@@ -39,14 +39,30 @@
                             <div>
                                 <div class="row m-t-20">
                                     @foreach($block->houses as $house)
-                                        <div class="col-xs-4 col-md-1 col-sm-2 text-center">
+                                        <div class="col-xs-4 col-md-2 col-lg-1 col-sm-2 text-center">
+
+                                            @php
+                                                $title = strtolower('blok-' . str_replace(" ", "-", $block->name) . "-no-" . $house->number);
+                                                if($house->status == "kosong") {
+                                                    $url = url('supervisor/dashboard/'.$house->id.'/'.$title);
+                                                }else if($house->status == "akad") {
+                                                    $url = url('supervisor/dashboard/'.$house->id.'/'.$title.'/edit');
+                                                }else {
+                                                    $url = url('supervisor/dashboard/'.$house->id.'/'.$title.'/show');
+                                                }
+                                            @endphp
                                             <a >
                                                 <div class="wrap {{ $house->status }}" style="color: #101010;">
                                                     <div class="col-xs-4 indicator {{ ($house->indicator_satu == '1') ? "done" : '' }}"></div>
                                                     <div class="col-xs-4 indicator {{ ($house->indicator_dua == '1') ? "done" : '' }}"></div>
                                                     <div class="col-xs-4 indicator {{ ($house->indicator_tiga == '1') ? "done" : '' }}"></div>
                                                     <h5>
-                                                        <a class="btn btn-default btn-xs fs-12" >{{ $house->number }}</a>
+                                                        @if($house->status == 'akad')
+                                                            <a class="btn btn-default btn-xs fs-10" href="{{ $url }}" ><i class="fa fa-pencil"></i> </a>
+                                                            <a class="btn btn-danger btn-xs fs-10" onClick="deleteData({{ $house->id }})" ><i class="fa fa-trash-o"></i> </a>
+                                                        @else
+                                                            <a href="{{ $url }}" class="btn btn-default btn-xs fs-12" >{{ $house->number }}</a>
+                                                        @endif
                                                     </h5>
                                                     <label>{{ ucwords($house->status) }}</label>
                                                 </div>
@@ -73,12 +89,29 @@
 
     $(document).ajaxStart(function() { Pace.restart(); });
 
+    function deleteData(id) {
+        $('#modalDelete').modal('show');
+        $('#deleteID').val(id);
+    }
+
+    function hapus(){
+        $('#modalDelete').modal('hide');
+        var id = $('#deleteID').val();
+        $.ajax({
+            url: '{{url("supervisor/dashboard")}}' + "/" + id + '?' + $.param({"_token" : '{{ csrf_token() }}' }),
+            type: 'DELETE',
+            complete: function(data) {
+                window.location.href = '{{ url('supervisor/dashboard') }}';
+            }
+        });
+    }
+
     $(document).ready(function() {
 
         $('#id_location').on('change', function (e) {
             var id = $("#id_location option:selected").val();
             $.ajax({
-                url: '{{url("dashboard")}}' + "/" + id + '?' + $.param({"_token" : '{{ csrf_token() }}' }),
+                url: '{{url("supervisor/dashboard")}}' + "/" + id + '?' + $.param({"_token" : '{{ csrf_token() }}' }),
                 type: 'GET',
                 complete: function(data) {
                     $("#so_do_you").html(data.responseText);

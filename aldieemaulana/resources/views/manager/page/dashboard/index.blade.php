@@ -39,7 +39,7 @@
                             <div>
                                 <div class="row m-t-20">
                                     @foreach($block->houses as $house)
-                                        <div class="col-xs-4 col-md-1 col-sm-2 text-center">
+                                        <div class="col-xs-4 col-md-2 col-lg-1 col-sm-2 text-center">
 
                                             @php
                                                 $title = strtolower('blok-' . str_replace(" ", "-", $block->name) . "-no-" . $house->number);

@@ -29,7 +29,7 @@
     <title>{{ config('app.name', '') }} - @yield('title')</title>
 
     @section('header')
-        @include('manager.components.header')
+        @include('supervisor.components.header')
     @show
 
 </head>
@@ -40,7 +40,7 @@
 
         <div class="sidebar-menu">
             <ul class="menu-items">
-              @include('manager.components.menus')
+              @include('supervisor.components.menus')
             </ul>
             <div class="clearfix"></div>
         </div>
@@ -71,7 +71,7 @@
 
     						<ul class="dropdown-menu profile-dropdown" role="menu">
     							<li>
-    								<a class="clearfix" href="{{ url('manager/setting') }}"><i class="pg-settings_small"></i> Settings</a>
+    								<a class="clearfix" href="{{ url('supervisor/setting') }}"><i class="pg-settings_small"></i> Settings</a>
     								<a class="clearfix" href="{{ url('logout') }}"><i class="pg-power"></i> Sign Out</a>
     							</li>
     						</ul>
@@ -136,7 +136,7 @@
           </div>
         </div>
 
-        @include('manager.components.footer')
+        @include('supervisor.components.footer')
   		</div>
 
     </div>
@@ -144,7 +144,7 @@
 
 
     @section('scripts')
-        @include('manager.components.script')
+        @include('supervisor.components.script')
         <script>
           function startTime() {
               var today = new Date();

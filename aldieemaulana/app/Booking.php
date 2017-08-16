@@ -26,11 +26,15 @@ class Booking extends Model
      *
      * @var array
      */
-    protected $fillable = ["id_house","nama","status","telepon","tanggal_wawancara","booking_fee","tanggal_booking_fee","dp_1","tanggal_dp_1","dp_2","tanggal_dp_2","dp_3","tanggal_dp_3","dp_4","tanggal_dp_4","dp_5","tanggal_dp_5","kpr_diajukan","kpr_disetujui","kpr_selisih","tanggal_bayar","bayar","metode_bayar","tanggal_akad","tanggal_cair"];
+    protected $fillable = ["id_house","nama","status","telepon","tanggal_wawancara","booking_fee","tanggal_booking_fee","fee_status","dp_1","tanggal_dp_1","dp_2","tanggal_dp_2","dp_3","tanggal_dp_3","dp_4","tanggal_dp_4","dp_5","tanggal_dp_5","kpr_diajukan","kpr_disetujui","kpr_selisih","tanggal_bayar","bayar","metode_bayar","tanggal_akad","tanggal_cair"];
 
 
     public function houses() {
         return $this->hasMany("App\House", "id_block", "id");
+    }
+
+    public function house() {
+        return $this->hasOne("App\House", "id", "id_house");
     }
 
 

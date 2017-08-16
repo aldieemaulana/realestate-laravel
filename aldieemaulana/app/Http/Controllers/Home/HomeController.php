@@ -81,12 +81,7 @@ class HomeController extends Controller
                         $url = url('home/dashboard/'.$house->id.'/'.$title.'/show');
                     }
 
-                    if($house->status == 'akad') {
-                        $a = '<a class="btn btn-default btn-xs fs-10" href=""'.$url.'"" ><i class="fa fa-pencil"></i> </a>
-                        <a class="btn btn-danger btn-xs fs-10" onClick="deleteData('.$house->id .')" ><i class="fa fa-trash-o"></i> </a>';
-                    }else {
-                        $a = '<a href="'.$url.'" class="btn btn-default btn-xs fs-12" >'.$house->number.'</a>';
-                    }
+                    $a = '<a  class="btn btn-default btn-xs fs-12" >'.$house->number.'</a>';
 
                     $indicator_satu = ($house->indicator_satu == "1") ? "done" : "Satu!";
                     $indicator_dua = ($house->indicator_dua == "1") ? "done" : "Dua!";

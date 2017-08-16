@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manager;
+namespace App\Http\Controllers\Supervisor;
 
 use App\AkadKredit;
 use App\Block;
@@ -31,7 +31,7 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('manager');
+        $this->middleware('supervisor');
     }
 
     /**
@@ -43,7 +43,7 @@ class DashboardController extends Controller
     {
         $blocks = Block::all();
         $locations = Location::pluck('name', 'id')->prepend("Semua Perumahan", 0);
-        return view('manager.page.dashboard.index', compact('blocks', 'locations'));
+        return view('supervisor.page.dashboard.index', compact('blocks', 'locations'));
     }
 
     /**
@@ -83,11 +83,11 @@ class DashboardController extends Controller
                 foreach($block->houses as $house) {
                     $title = strtolower('blok-' . str_replace(" ", "-", $block->name) . "-no-" . $house->number);
                     if($house->status == "kosong") {
-                        $url = url('manager/dashboard/'.$house->id.'/'.$title);
+                        $url = url('supervisor/dashboard/'.$house->id.'/'.$title);
                     }else if($house->status == "akad") {
-                        $url = url('manager/dashboard/'.$house->id.'/'.$title.'/edit');
+                        $url = url('supervisor/dashboard/'.$house->id.'/'.$title.'/edit');
                     }else {
-                        $url = url('manager/dashboard/'.$house->id.'/'.$title.'/show');
+                        $url = url('supervisor/dashboard/'.$house->id.'/'.$title.'/show');
                     }
 
                     if($house->status == 'akad') {
@@ -220,7 +220,7 @@ class DashboardController extends Controller
         $follow_up_banks = $this->remove_array(Schema::getColumnListing('follow_up_banks'), ["status", "id", "id_house", "created_at", "updated_at", "tanggal"]);
 
 
-        return view('manager.page.dashboard.house.create', compact("id", "title", "information", "syarat_umus", 'pegawai_tetaps', 'data_banks', 'akad_kredits', 'follow_up_banks'));
+        return view('supervisor.page.dashboard.house.create', compact("id", "title", "information", "syarat_umus", 'pegawai_tetaps', 'data_banks', 'akad_kredits', 'follow_up_banks'));
     }
 
 
@@ -342,7 +342,7 @@ class DashboardController extends Controller
             $house->update(["status" => "isi"]);
         }
 
-        return redirect('manager/dashboard');
+        return redirect('supervisor/dashboard');
     }
 
     function remove_array( $array, $items) {
@@ -391,7 +391,7 @@ class DashboardController extends Controller
         $fub = FollowUpBank::whereIdHouse($id)->first();
         $bo = Booking::whereIdHouse($id)->first();
 
-        return view('manager.page.dashboard.house.edit', compact("id", "title", "information", "syarat_umus", 'pegawai_tetaps', 'data_banks', 'akad_kredits', 'follow_up_banks', 'su', 'pt', 'db', 'ak', 'fub' , 'bo'));
+        return view('supervisor.page.dashboard.house.edit', compact("id", "title", "information", "syarat_umus", 'pegawai_tetaps', 'data_banks', 'akad_kredits', 'follow_up_banks', 'su', 'pt', 'db', 'ak', 'fub' , 'bo'));
     }
 
 
@@ -529,7 +529,7 @@ class DashboardController extends Controller
             $house->update(["status" => "isi"]);
         }
 
-        return redirect('manager/dashboard');
+        return redirect('supervisor/dashboard');
     }
 
 
@@ -559,7 +559,7 @@ class DashboardController extends Controller
         $fub = FollowUpBank::whereIdHouse($id)->first();
         $bo = Booking::whereIdHouse($id)->first();
 
-        return view('manager.page.dashboard.house.show', compact("id", "title", "information", "syarat_umus", 'pegawai_tetaps', 'data_banks', 'akad_kredits', 'follow_up_banks', 'su', 'pt', 'db', 'ak', 'fub' , 'bo'));
+        return view('supervisor.page.dashboard.house.show', compact("id", "title", "information", "syarat_umus", 'pegawai_tetaps', 'data_banks', 'akad_kredits', 'follow_up_banks', 'su', 'pt', 'db', 'ak', 'fub' , 'bo'));
     }
 
     public function destroy($id) {
@@ -573,7 +573,7 @@ class DashboardController extends Controller
         FollowUpBank::whereIdHouse($id)->delete();
         Booking::whereIdHouse($id)->delete();
 
-        return redirect('manager/dashboard');
+        return redirect('supervisor/dashboard');
     }
 
 }

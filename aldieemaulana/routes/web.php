@@ -16,9 +16,11 @@ use App\Role;
 Route::get('', 'Home\HomeController@dashboard')->name('home.dashboard');
 Route::get('/dashboard/{id}', 'Home\HomeController@filter')->name('home.filter');
 
-Route::get('home', function () {
+Route::get('/home', function () {
     if(Role::whereId(Session::get('role'))->value('name') == "manager"){
         return redirect('manager/dashboard');
+    }else if(Role::whereId(Session::get('role'))->value('name') == "supervisor"){
+        return redirect('supervisor/dashboard');
     }else{
         return redirect('logout');
     }
@@ -43,4 +45,21 @@ Route::group(['prefix' => 'manager'], function () {
     Route::resource('location', 'Manager\LocationController');
     Route::resource('block', 'Manager\BlockController');
     Route::resource('transaction', 'Manager\TransactionController');
+    Route::patch('transaction/fee/{id}', 'Manager\TransactionController@updateFee')->name('manager.transaction.fee');
+    Route::get('transaction/location/{id}', 'Manager\TransactionController@getBlock')->name('manager.transaction.location');
+});
+
+
+Route::group(['prefix' => 'supervisor'], function () {
+    Route::resource('user', 'Supervisor\UserController');
+    Route::get('dashboard', 'Supervisor\DashboardController@dashboard')->name('supervisor.dashboard');
+    Route::get('dashboard/{id}', 'Supervisor\DashboardController@filter')->name('supervisor.dashboard.filter');
+    Route::get('dashboard/{id}/{title}', 'Supervisor\DashboardController@create')->name('supervisor.create');
+    Route::post('dashboard/{id}/{title}', 'Supervisor\DashboardController@store')->name('supervisor.store');
+    Route::get('dashboard/{id}/{title}/edit', 'Supervisor\DashboardController@edit')->name('supervisor.edit');
+    Route::patch('dashboard/{id}/{title}/edit', 'Supervisor\DashboardController@update')->name('supervisor.update');
+    Route::get('dashboard/{id}/{title}/show', 'Supervisor\DashboardController@show')->name('supervisor.show');
+    Route::delete('dashboard/{id}', 'Supervisor\DashboardController@destroy')->name('supervisor.destroy');
+    Route::get('setting', 'Supervisor\SupervisorController@setting')->name('supervisor.setting.edit');
+    Route::patch('setting', 'Supervisor\SupervisorController@settingUpdate')->name('supervisor.setting.update');
 });
